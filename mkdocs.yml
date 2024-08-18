@@ -27,14 +27,16 @@ theme:
   # For testing issue 7
   - navigation.instant
 plugins:
-- placeholder:
-    placeholder_extra_js: placeholder-extra.js
+- encrypt-source:
+    verbose: true
 - badges
 - search
 - git-revision-date-localized
 
 nav:
 - index.md
+- usage.md
+- tests.md
 
 markdown_extensions:
   # Message/error/warning boxes
@@ -58,10 +60,7 @@ markdown_extensions:
   - pymdownx.tabbed:
       alternate_style: true
 
-# For MkDocs 1.5 do not warn me about absolute links or `iLINKi`
-validation:
-  absolute_links: ignore
-  unrecognized_links: ignore
-
-watch:
-- placeholder-plugin.yaml
+# # For MkDocs 1.5 do not warn me about absolute links or `iLINKi`
+# validation:
+#   absolute_links: ignore
+#   unrecognized_links: ignore
