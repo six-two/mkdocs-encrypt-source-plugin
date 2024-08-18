@@ -1,6 +1,6 @@
 site_name: MkDocs Encrypt Source Plugin
 repo_url: https://github.com/six-two/mkdocs-encrypt-source-plugin
-repo_name: mkdocs-placeholder-plugin
+repo_name: mkdocs-encrypt-source-plugin
 
 theme:
   name: material

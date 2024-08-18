@@ -4,6 +4,22 @@ encrypt-source-plugin-skip-file: true
 
 # Usage
 
+## Installation
+
+Install the plugin:
+```bash
+pip install mkdocs-encrypt-source-plugin
+```
+
+Then add the plugin in your `mkdocs.yml`. If you have not defined the `plugins` key you may also want to add the `search` plugin:
+```yaml
+plugins:
+- search
+- encrypt-source
+```
+
+## Encrypt contents
+
 First generate a new key by encrypting your first text:
 ```bash
 $ echo MySecretIs... | mkdocs-encrypt-source-cli -e 
@@ -27,6 +43,10 @@ $ echo '__import__("subprocess").call("bash")' | mkdocs-encrypt-source-cli -e
 ```
 
 As long as all blobs are encrypted with the same key, you can add as many blobs as you want. If you edit the website on multiple machines, you need to declare the same value on them too. If you build the website using CI/CD pipelines, you need to add the same variable there too.
+
+## Decrypt contents
+
+If the `MKDOCS_ENCRYPT_SOURCE_KEY` environment variable is set up currectly, just running `mkdocs serve` or `mkdocs build` decrypts the encrypted values and builds the page.
 
 If you are unsure what is in a snippet/encrypted blob, but do not want to build the whole site, you can use the CLI to decrypt it for you. You can also pass a whole Markdown page containing multiple encrypted blobs as input, the tool will find and decrypt them all:
 ```bash
