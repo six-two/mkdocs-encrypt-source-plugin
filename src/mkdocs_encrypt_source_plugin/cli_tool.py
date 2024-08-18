@@ -27,10 +27,13 @@ def main():
     text_input = sys.stdin.read()
     if args.decrypt:
         cipher = Fernet(key.encode())
-        decrypted_text, counter = decrypt_markdown(text_input, cipher, lambda message: print(f"[-] {message}", file=sys.stderr))
-        if counter > 0:
-            print(decrypted_text)
-            print(f"[*] Decrypted {counter} blobs", file=sys.stderr)
+        decrypted_text, counter_success, counter_errors = decrypt_markdown(text_input, cipher, lambda message: print(f"[-] {message}", file=sys.stderr))
+        if counter_success + counter_errors > 0:
+            if counter_success > 0:
+                print(decrypted_text)
+                print(f"[*] Decrypted {counter_success} blobs", file=sys.stderr)
+            if counter_errors > 0:
+                print(f"[-] Failed to decrypt {counter_success} blobs", file=sys.stderr)
         else:
             print(f"[!] The input contained no encrypted blobs", file=sys.stderr)
             exit(1)

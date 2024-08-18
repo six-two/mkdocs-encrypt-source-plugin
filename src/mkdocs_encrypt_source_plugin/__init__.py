@@ -24,21 +24,23 @@ def decrypt_markdown(markdown, cipher_suite, error_callback):
     """
     This function searches an input text (`markdown`) for encypted blobs and decrypts them with the given cipher (`cipher_suite`).
     If the decryption fails, error_callback is called with a message string describing the error. You can set it to `print`, `logger.error` or something similar.
-    When all blobs have been replaced, the function returns the markdown with all decrypted blobs and a counter of how many blobs were found on the site.
-    The return data is expressed as a tuple (decrypted_markdown: str, counter: int)
+    When all blobs have been replaced, the function returns the markdown with all decrypted blobs and counters for how many blobs were decrypted and how many failed on the site.
+    The return data is expressed as a tuple (decrypted_markdown: str, counter_success: int, counter_error: int)
     """
     decrypted_markdown = markdown
-    counter = 0
+    counter_success = 0
+    counter_error = 0
 
     for match in ENCRYPTION_REGEX.finditer(markdown):
-        counter += 1
         encrypted_text = match.group(1).replace("%3D", "=").replace("%3d", "=")
         try:
             # Decrypt the text
             decrypted_text = cipher_suite.decrypt(encrypted_text).decode()
             # Replace the encrypted text in the markdown with the decrypted text
             decrypted_markdown = decrypted_markdown.replace(match.group(0), decrypted_text)
+            counter_success += 1
         except Exception as e:
             error_callback(f"Error decrypting blob '{match.group(0)}': {e}")
+            counter_error += 1
 
-    return (decrypted_markdown, counter)
+    return (decrypted_markdown, counter_success, counter_error)

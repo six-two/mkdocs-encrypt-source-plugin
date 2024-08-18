@@ -47,8 +47,8 @@ class EncryptPlugin(BasePlugin[PlaceholderPluginConfig]):
         See: https://www.mkdocs.org/dev-guide/plugins/#on_page_markdown
         """
 
-        markdown, counter = decrypt_markdown(markdown, self.fernet_cipher, lambda message: self.logger.error(f"Failed to decrypt data on page {page.file.src_path}: {message}"))
-        if self.config.verbose and counter > 0:
-            self.logger.info(f"Decrypted {counter} blobs on page {page.file.src_path}")
+        markdown, counter_success, counter_error = decrypt_markdown(markdown, self.fernet_cipher, lambda message: self.logger.error(f"Failed to decrypt data on page {page.file.src_path}: {message}"))
+        if self.config.verbose and counter_success + counter_error > 0:
+            self.logger.info(f"Decrypted {counter_success}/{counter_success+counter_error} blobs on page {page.file.src_path}")
 
         return markdown
